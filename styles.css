@@ -161,8 +161,14 @@ section {
 
 .services {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
+}
+
+@media (max-width: 1200px) {
+    .services {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .service-card {
@@ -171,6 +177,7 @@ section {
     border-radius: 1.5rem;
     padding: 3rem 2rem;
     transition: all 0.4s;
+    text-align: center;
 }
 
 .service-card:hover {
@@ -484,4 +491,8 @@ body.light-mode footer {
         padding: 0.6rem 1.2rem;
         font-size: 0.85rem;
     }
+    
+    .services {
+        grid-template-columns: 1fr;
+    }  
 }
