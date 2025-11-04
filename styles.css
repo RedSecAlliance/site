@@ -4,6 +4,30 @@
     box-sizing: border-box;
 }
 
+/* Logo do Hero */
+.hero-logo {
+    display: block;
+    margin: 0 auto 0 rem;
+    max-width: 600px;
+    width: 90%;
+    height: auto;
+    animation: fadeInUp 0.8s ease;
+}
+
+/* Responsivo para o logo */
+@media (max-width: 768px) {
+    .hero-logo {
+        max-width: 400px;
+        width: 85%;
+        margin-bottom: 0rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-logo {
+        max-width: 150px;
+    }
+}
 :root {
     --red: #DC2626;
     --dark: #0A0A0A;
@@ -495,4 +519,6 @@ body.light-mode footer {
     .services {
         grid-template-columns: 1fr;
     }  
+
+
 }
