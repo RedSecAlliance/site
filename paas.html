@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pentest As A Service (PaaS) - RedSec Alliance</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .paas-hero-section {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10rem 5% 0 5%;
+            position: relative;
+        }
+
+        .paas-hero-section h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .paas-hero-section .highlight {
+            color: var(--red);
+        }
+
+        .paas-hero-section p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--gray);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        body.light-mode .paas-hero-section p {
+            color: #555;
+        }
+
+        /* Seção de Destaque da Oferta - Pricing Card */
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem auto 4rem auto;
+            max-width: 750px;
+            padding: 0 1.5rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid rgba(220, 38, 38, 0.2);
+            border-radius: 2rem;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--red);
+            box-shadow: 0 25px 60px rgba(220, 38, 38, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .price-badge {
+            background: rgba(220, 38, 38, 0.1);
+            color: #EF4444;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .price-amount {
+            font-size: clamp(3rem, 7vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+        }
+
+        .price-amount span {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--gray);
+            letter-spacing: 0;
+        }
+
+        .pricing-features-list {
+            list-style: none;
+            margin: 2.5rem 0;
+            padding: 0;
+            text-align: left;
+            display: inline-block;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .pricing-features-list li {
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            color: var(--light);
+            line-height: 1.4;
+        }
+
+        .pricing-features-list li svg {
+            width: 20px;
+            height: 20px;
+            color: #EF4444;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        /* Seção comparativa / Justificativa */
+        .comparison-section {
+            background: rgba(220, 38, 38, 0.02);
+            border-top: 1px solid rgba(220, 38, 38, 0.1);
+            border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+            padding: 6rem 5%;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .comparison-col h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .comparison-col.traditional h3 {
+            color: var(--gray);
+        }
+
+        .comparison-col.paas h3 {
+            color: #EF4444;
+        }
+
+        .comparison-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-item h4 {
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .comparison-item p {
+            color: var(--gray);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Modo claro para novos elementos */
+        body.light-mode .pricing-card {
+            background: rgba(0, 0, 0, 0.02);
+            border: 2px solid rgba(220, 38, 38, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .pricing-card:hover {
+            box-shadow: 0 25px 60px rgba(220, 38, 38, 0.1);
+        }
+
+        body.light-mode .price-amount span {
+            color: #555;
+        }
+
+        body.light-mode .pricing-features-list li {
+            color: var(--dark);
+        }
+
+        body.light-mode .comparison-section {
+            background: rgba(220, 38, 38, 0.03);
+            border-top: 1px solid rgba(220, 38, 38, 0.08);
+            border-bottom: 1px solid rgba(220, 38, 38, 0.08);
+        }
+
+        body.light-mode .comparison-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .comparison-item p {
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .pricing-card {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        /* Seção de Parceiros e Clientes */
+        .partners-section {
+            padding: 4rem 5% 6rem 5%;
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .partners-logo-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            opacity: 0.65;
+            margin-bottom: 5rem;
+        }
+
+        .partner-logo-item {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray);
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .partner-logo-item span {
+            color: var(--red);
+        }
+
+        .partner-logo-item:hover {
+            color: var(--light);
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        body.light-mode .partner-logo-item:hover {
+            color: var(--dark);
+        }
+
+        .client-testimonial-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            transition: all 0.4s;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .client-testimonial-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.15);
+        }
+
+        .client-testimonial-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        body.light-mode .client-testimonial-card h4 {
+            color: var(--dark);
+        }
+
+        .client-testimonial-card .client-tag {
+            color: var(--red);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .client-testimonial-card p {
+            color: var(--gray);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        body.light-mode .client-testimonial-card p {
+            color: #555;
+        }
+
+        body.light-mode .client-testimonial-card {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        body.light-mode .client-testimonial-card:hover {
+            background: rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">Red<span>Sec</span> Alliance</a></div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="paas.html">PaaS (Pentest Contínuo)</a></li>
+            <li><a href="index.html#services">Serviços</a></li>
+            <li><a href="index.html#about">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="#contato" class="cta-button">Fale Conosco</a>
+            <div class="toggle-switch">
+                <label class="switch-label">
+                    <input type="checkbox" class="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Visão Geral (Objetiva) -->
+    <section class="paas-hero-section" id="visao-geral">
+        <h1>Pentest Contínuo.<br>Proteção <span class="highlight">Ativa.</span></h1>
+        <p>Segurança recorrente para sua aplicação. Proteja seus sistemas e dados contra ataques reais de forma contínua, sem o custo de uma equipe dedicada.</p>
+        <div class="hero-buttons">
+            <a href="#entregaveis" class="primary-btn">Ver Detalhes do Plano</a>
+            <a href="#contato" class="secondary-btn">Iniciar Contato</a>
+        </div>
+    </section>
+
+    <!-- Pricing Card / Entregáveis Diretos -->
+    <section id="entregaveis" style="padding-top: 1rem;">
+        <h2 class="section-title">O que está incluso no seu Plano</h2>
+        
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <div class="price-badge">Recorrente Mensal</div>
+                <div class="price-amount">R$ 300 <span>/ mês</span></div>
+                <p style="color: var(--gray); margin-bottom: 1.5rem;">Análise profissional de segurança contínua para sua empresa.</p>
+                
+                <ul class="pricing-features-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <div>
+                            <strong>3h semanais de análise de segurança dedicada:</strong> 
+                            Testes ativos e práticos simulando ataques reais para encontrar vulnerabilidades.
+                        </div>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <div>
+                            <strong>Validação de 2 novas funcionalidades/mês:</strong> 
+                            Análise de segurança em novos deploys para garantir atualizações sem brechas.
+                        </div>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <div>
+                            <strong>1 reunião mensal de 30 minutos:</strong> 
+                            Call direta com o especialista para direcionar correções e tirar dúvidas do time.
+                        </div>
+                    </li>
+                </ul>
+
+                <div style="margin-top: 1rem;">
+                    <a href="mailto:contato@redsecalliance.com.br?subject=Interesse%20no%20Plano%20PaaS%20-%20Pentest%20As%20A%20Service" class="primary-btn" style="display: inline-block;">Contratar Plano PaaS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparação / Justificativa Rápida (Incrementada) -->
+    <section id="justificativa" class="comparison-section">
+        <h2 class="section-title">Por que escolher o Pentest As A Service (PaaS)?</h2>
+        <p style="color: var(--gray); text-align: center; max-width: 800px; margin: -1.5rem auto 3rem auto; font-size: 1.1rem; line-height: 1.6;">
+            O modelo tradicional de auditorias pontuais é ineficaz para o ritmo do desenvolvimento moderno. A segurança da sua aplicação precisa evoluir na mesma velocidade do seu código.
+        </p>
+        
+        <div class="comparison-grid">
+            <!-- Modelo Tradicional -->
+            <div class="comparison-col traditional">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gray);">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    Auditorias Tradicionais Avulsas
+                </h3>
+                
+                <div class="comparison-item">
+                    <h4>Custo Financeiro Elevado</h4>
+                    <p>Contratos fechados de dezenas de milhares de reais por análise ou a necessidade de contratar um analista de segurança interno sênior em tempo integral (R$ 10.000+/mês).</p>
+                </div>
+                
+                <div class="comparison-item">
+                    <h4>Janela de Vulnerabilidade Crítica</h4>
+                    <p>O relatório pontual torna-se obsoleto no próximo deploy. Novas funcionalidades introduzem novos riscos que permanecem invisíveis até o próximo teste anual.</p>
+                </div>
+
+                <div class="comparison-item">
+                    <h4>Processo Lento e Burocrático</h4>
+                    <p>Negociações complexas de escopo a cada alteração na aplicação, atrasando o lançamento de novas features importantes para o seu negócio.</p>
+                </div>
+            </div>
+
+            <!-- PaaS RedSec -->
+            <div class="comparison-col paas">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #EF4444;">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    PaaS RedSec Alliance
+                </h3>
+                
+                <div class="comparison-item">
+                    <h4>Previsibilidade Orçamentária</h4>
+                    <p>Investimento fixo de apenas R$ 300/mês. Você tem uma equipe dedicada de pentester sempre de prontidão sem pesar nos custos fixos da empresa.</p>
+                </div>
+                
+                <div class="comparison-item">
+                    <h4>Segurança em Tempo Real (Ágil)</h4>
+                    <p>Análises de segurança semanais e validações sob demanda em novos deploys. Suas vulnerabilidades são identificadas e mitigadas no momento em que surgem.</p>
+                </div>
+
+                <div class="comparison-item">
+                    <h4>Apoio Prático ao Time Dev</h4>
+                    <p>Seus desenvolvedores recebem auxílio direto nas reuniões mensais com especialistas de segurança, aprendendo a codificar de forma segura no dia a dia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parceiros & Clientes Atendidos -->
+    <section class="partners-section">
+        <div class="partners-title">Parceiros Estratégicos</div>
+        <div class="partners-logo-row">
+            <div class="partner-logo-item">AWS<span>_Partner</span></div>
+            <div class="partner-logo-item">OWASP<span>_Core</span></div>
+            <div class="partner-logo-item">CLOUDFLARE</div>
+            <div class="partner-logo-item">MICROSOFT<span>_Azure</span></div>
+        </div>
+
+        <h2 class="section-title">Clientes que confiam em nós</h2>
+        <p style="color: var(--gray); text-align: center; max-width: 700px; margin: -1.5rem auto 3rem auto; font-size: 1.1rem; line-height: 1.6;">
+            Ajudamos empresas de diversos setores a manterem suas aplicações blindadas contra invasões e fraudes de dados.
+        </p>
+
+        <!-- Grid de Clientes em Cards -->
+        <div class="comparison-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1400px; margin: 0 auto;">
+            <!-- SATC -->
+            <div class="client-testimonial-card">
+                <div>
+                    <div class="client-tag">Educação &amp; Tecnologia</div>
+                    <h4>SATC</h4>
+                    <p>"A segurança contínua nos sistemas integrados de ensino e portais acadêmicos da SATC garante a proteção das informações de alunos e docentes em todas as etapas da formação técnica e superior."</p>
+                </div>
+            </div>
+
+            <!-- UNESC -->
+            <div class="client-testimonial-card">
+                <div>
+                    <div class="client-tag">Ensino Superior</div>
+                    <h4>UNESC</h4>
+                    <p>"Mitigamos riscos e blindamos a infraestrutura digital dos portais acadêmicos da universidade, promovendo total conformidade e privacidade de dados para milhares de estudantes e professores."</p>
+                </div>
+            </div>
+
+            <!-- Darwin Saúde -->
+            <div class="client-testimonial-card">
+                <div>
+                    <div class="client-tag">HealthTech</div>
+                    <h4>Darwin Saúde</h4>
+                    <p>"A validação recorrente de novos recursos no software protege os dados médicos e prontuários de milhares de pacientes em clínicas de grande porte, unindo agilidade de deploy à segurança absoluta."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chamada para Ação Final -->
+    <section id="contato" style="text-align: center; padding: 6rem 5%;">
+        <h2 class="section-title">Proteja sua aplicação agora</h2>
+        <p style="color: var(--gray); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Não espere um incidente para descobrir se sua empresa está vulnerável. Fale com nossa equipe de especialistas.
+        </p>
+        <div style="margin-bottom: 1.5rem;">
+            <a href="mailto:contato@redsecalliance.com.br?subject=Interesse%20no%20Plano%20PaaS%20-%20Pentest%20As%20A%20Service" class="primary-btn" style="display: inline-block; padding: 1.1rem 2.8rem; font-size: 1.05rem;">
+                Iniciar Contato por E-mail
+            </a>
+        </div>
+        <p style="color: var(--gray); font-size: 0.9rem;">E-mail direto: <a href="mailto:contato@redsecalliance.com.br" style="color: var(--red); text-decoration: none; font-weight: 600;">contato@redsecalliance.com.br</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 RedSec Alliance. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Botão WhatsApp Flutuante -->
+    <a href="https://wa.me/554896154800?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20plano%20PaaS%20da%20RedSec%20Alliance." class="whatsapp-button" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
